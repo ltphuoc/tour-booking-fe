@@ -24,8 +24,9 @@ const ListingTourPage: FC<ListingStayPageProps> = ({ className = "" }) => {
         ]);
 
         const destinations = destinationsResponse.data.data;
+        console.log("destinations", destinations);
         const tours = toursResponse.data.data;
-
+        console.log("tours", tours);
         const newCard = tours.map((e: tourType) => {
           const destination = destinations.find(
             (d: destinationsType) => d.id === e.tourDetails[0].destination.id
@@ -60,6 +61,7 @@ const ListingTourPage: FC<ListingStayPageProps> = ({ className = "" }) => {
         setIsLoading(false);
       } catch (error) {
         // handle error
+        setIsLoading(false);
       }
     })();
   }, []);
@@ -114,7 +116,7 @@ const ListingTourPage: FC<ListingStayPageProps> = ({ className = "" }) => {
               ))}
             </div>
           )}
-          {!isLoading && (
+          {isLoading === false && (
             <div className="flex mt-16 justify-center items-center">
               <Pagination />
             </div>
