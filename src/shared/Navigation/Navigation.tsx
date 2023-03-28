@@ -1,29 +1,29 @@
-import React, { useContext } from 'react'
-import NavigationItem, { NavItemType } from './NavigationItem'
+import React, { useContext } from "react";
+import NavigationItem, { NavItemType } from "./NavigationItem";
 //import { NAVIGATION_DEMO } from 'data/navigation'
-import ncNanoId from 'utils/ncNanoId'
-import { AuthContext } from 'context/AuthContext'
+import ncNanoId from "utils/ncNanoId";
+import { AuthContext } from "context/AuthContext";
 
 export const NAVIGATION_DEMO: NavItemType[] = [
   {
     id: ncNanoId(),
-    href: '/',
-    name: 'Home',
+    href: "/",
+    name: "Home",
     // type: "none",
     // children: demoChildMenus,
     isNew: true,
   },
   {
     id: ncNanoId(),
-    href: '/listing-tour',
-    name: 'Tours',
+    href: "/listing-tour",
+    name: "Tours",
     // type: "megaMenu",
     // megaMenu: megaMenuDemo,
   },
   {
     id: ncNanoId(),
-    href: '/listing-stay',
-    name: 'Destination',
+    href: "/listing-stay",
+    name: "Destination",
     // type: "megaMenu",
     // megaMenu: megaMenuDemo,
   },
@@ -36,19 +36,19 @@ export const NAVIGATION_DEMO: NavItemType[] = [
   // },
   {
     id: ncNanoId(),
-    href: '/account-savelists',
-    name: 'My Booking',
+    href: "/account-savelists",
+    name: "My Booking",
     // type: "megaMenu",
     // megaMenu: megaMenuDemo,
   },
-]
+];
 
 function Navigation() {
   const authContext = useContext(AuthContext);
   const isAuthenticated = authContext?.getIdToken || false;
 
   const updatedNavigation = NAVIGATION_DEMO.map((item) => {
-    if (item.name === 'Account' || item.name === 'My Bill') {
+    if (item.name === "My Booking") {
       return { ...item, hidden: !isAuthenticated };
     }
     return item;
@@ -66,5 +66,4 @@ function Navigation() {
   );
 }
 
-
-export default Navigation
+export default Navigation;
