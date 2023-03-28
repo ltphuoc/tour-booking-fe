@@ -16,7 +16,7 @@ export interface PayPageProps {
   className?: string;
 }
 
-const PayPage: FC<PayPageProps> = ({ className = "" }) => {
+const PayOrderedPage: FC<PayPageProps> = ({ className = "" }) => {
   const [file, setFile] = useState<any>("");
   function handleChange(e: any) {
     setFile(e.target.files[0]);
@@ -99,7 +99,9 @@ const PayPage: FC<PayPageProps> = ({ className = "" }) => {
     return booking && booking.tour && booking.tour?.tourDetails.length !== 0 ? (
       <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 dark:border-neutral-700 space-y-8 px-0 sm:p-6 xl:p-8">
         <h2 className="text-3xl lg:text-4xl font-semibold">
-          Congratulation 🎉
+          {booking.payments[0].status == 2
+            ? "Congratulation 🎉"
+            : "Waiting for payment"}
         </h2>
 
         <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
@@ -132,8 +134,8 @@ const PayPage: FC<PayPageProps> = ({ className = "" }) => {
                 </span>
               </div>
               <span className="block  text-sm text-neutral-500 dark:text-neutral-400">
-                {booking.tour.tourDuration.toString()} days ·{" "}
-                {booking.tour.tourCapacity.toString()} slots
+                {booking.tour.tourDuration.toString()} days
+                {/* {booking.tour.tourCapacity.toString()} slots */}
               </span>
               <div className="w-10 border-b border-neutral-200  dark:border-neutral-700"></div>
               <StartRating />
@@ -200,15 +202,15 @@ const PayPage: FC<PayPageProps> = ({ className = "" }) => {
           <h3 className="text-2xl font-semibold">Booking detail</h3>
           <div className="flex flex-col space-y-4">
             <div className="flex text-neutral-6000 dark:text-neutral-300">
-              <span className="flex-1">Payment code</span>
-              <span className="flex-1 font-medium text-neutral-900 dark:text-neutral-100">
-                {booking.payments[0].paymentCode}
-              </span>
-            </div>
-            <div className="flex text-neutral-6000 dark:text-neutral-300">
               <span className="flex-1">Date</span>
               <span className="flex-1 font-medium text-neutral-900 dark:text-neutral-100">
                 {moment(booking.payments[0].paymentDate).format("DD-MM-YYYY")}
+              </span>
+            </div>
+            <div className="flex text-neutral-6000 dark:text-neutral-300">
+              <span className="flex-1">Payment method</span>
+              <span className="flex-1 font-medium text-neutral-900 dark:text-neutral-100">
+                {booking.payments[0].paymentMethod == "1" ? "E-Banking" : "Cod"}
               </span>
             </div>
             <div className="flex text-neutral-6000 dark:text-neutral-300">
@@ -226,16 +228,16 @@ const PayPage: FC<PayPageProps> = ({ className = "" }) => {
             </div> */}
           </div>
         </div>
-        <div className="space-y-6">
-          <h3 className="text-2xl font-semibold">Upload Bill Image</h3>
-          <div className="flex flex-col space-y-4">
-            <div className="flex text-neutral-6000 dark:text-neutral-300">
-              <div className="text-center">
-                <span className="flex-1">
-                  {file ? (
+        {booking.payments[0].paymentImage && (
+          <div className="space-y-6">
+            <h3 className="text-2xl font-semibold">Upload Bill Image</h3>
+            <div className="flex flex-col space-y-4">
+              <div className="flex text-neutral-6000 dark:text-neutral-300">
+                <div className="text-center">
+                  <span className="flex-1">
                     <div>
                       <img
-                        src={URL.createObjectURL(file)}
+                        src={booking.payments[0].paymentImage.toString()}
                         alt="Bill Upload"
                         style={{
                           width: "200px",
@@ -244,39 +246,26 @@ const PayPage: FC<PayPageProps> = ({ className = "" }) => {
                           paddingBottom: "10px",
                           cursor: "pointer",
                         }}
-                        onClick={handleClick}
                       />
-                      <button
-                        style={{
-                          border: "1px solid white",
-                          borderRadius: "30px",
-                          width: "100px",
-                          height: "30px",
-                          marginLeft: "10px",
-                        }}
-                        onClick={handleReplace}
-                      >
-                        Replace
-                      </button>
                     </div>
-                  ) : (
-                    <input type="file" onChange={handleChange} />
-                  )}
-                </span>
+                  </span>
+                </div>
               </div>
-            </div>
 
-            {/* <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
+              {/* <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
               <span className="flex-1">Payment method</span>
               <span className="flex-1 font-medium text-neutral-900 dark:text-neutral-100">
                 {booking.payments[0].paymentMethod == 1 ? 'COD' : 'E-Banking'}
               </span>
             </div> */}
+            </div>
           </div>
-        </div>
-        <div>
-          <ButtonPrimary onClick={handleUpload}>Confirm</ButtonPrimary>
-        </div>
+        )}
+        {/* <div>
+          <ButtonPrimary onClick={handleUpload}>
+            Explore more stays
+          </ButtonPrimary>
+        </div> */}
       </div>
     ) : (
       ""
@@ -292,4 +281,4 @@ const PayPage: FC<PayPageProps> = ({ className = "" }) => {
   );
 };
 
-export default PayPage;
+export default PayOrderedPage;

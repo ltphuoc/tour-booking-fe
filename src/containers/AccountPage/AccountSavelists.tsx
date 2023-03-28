@@ -7,7 +7,7 @@ import CommonLayout from './CommonLayout'
 
 const AccountSavelists = () => {
   // let [categories] = useState(["Stays", "Experiences", "Cars"]);
-  let [categories] = useState(['Booking Bill'])
+  // let [categories] = useState(['Booking Bill'])
 
   const [booking, setBooking] = useState<StayDataType[]>([])
   useEffect(() => {
@@ -22,7 +22,7 @@ const AccountSavelists = () => {
             address: e.payments.map((x) => x.status == 0 ? 'Pending' : x.status == 1 ? 'Finished' : 'Cancel' ),
             title: e.tour.tourName,
             bedrooms: '',
-            href: `/pay-done/${e.payments[0].id}`,
+            href: `/pay-order/${e.payments[0].id}`,
             like: '',
             saleOff: '',
             isAds: '',
